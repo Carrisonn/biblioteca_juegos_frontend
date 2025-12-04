@@ -1,0 +1,10 @@
+.game_info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game_list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
