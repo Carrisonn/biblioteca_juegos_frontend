@@ -26,7 +26,7 @@ export const useGameStore = create(set => ({
   },
 
   searchGame: async game => {
-    const API_URL = `${import.meta.env.VITE_API_URL}/create/${game}`
+    const API_URL = `${import.meta.env.VITE_API_URL}/search/${game}`
     try {
       set({ isLoading: true })
       const response = await fetch(API_URL)
