@@ -1,19 +1,24 @@
 import { useId, useState } from 'react'
 import { useGameStore } from '../store/gameStore.js'
+import { Toast } from './Toast.jsx'
 
 export function SearchForm() {
-  const { getGames, searchGame, searchFormMessage, typeMessage } = useGameStore()
-
-  const [inputValue, setInputValue] = useState('')
+  const getGames = useGameStore(state => state.getGames)
+  const searchGame = useGameStore(state => state.searchGame)
+  const message = useGameStore(state => state.message)
 
   const idForm = useId()
   const idInput = useId()
 
+  const [inputValue, setInputValue] = useState('')
+
   function handleSubmit(event) {
     event.preventDefault()
+
     const formData = new FormData(event.target)
     const gameSearched = formData.get(idInput).trim()
     if (!gameSearched) return
+
     searchGame(gameSearched)
     setInputValue('')
   }
@@ -52,7 +57,7 @@ export function SearchForm() {
       </form>
 
       {
-        searchFormMessage && <p className={`feedback_message ${typeMessage}`}>{searchFormMessage}</p>
+        message && <Toast message={message} />
       }
     </>
   )
