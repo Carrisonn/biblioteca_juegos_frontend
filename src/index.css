@@ -94,21 +94,6 @@ svg {
   vertical-align: sub;
 }
 
-.feedback_message {
-  text-align: center;
-  padding: 1rem;
-  border-radius: .5rem;
-  font-weight: var(--font-bold);
-}
-
-.error {
-  background-color: var(--error-color);
-}
-
-.success {
-  background-color: var(--success-color);
-}
-
 .loader {
   margin: 0 auto;
   width: 90px;
@@ -216,5 +201,18 @@ button {
 
   &.delete {
     background-color: var(--error-color);
+  }
+}
+
+.swal2-popup {
+  font-size: 20px;
+
+  & .swal2-actions {
+    padding: 1rem;
+  }
+
+  & h2 {
+    text-wrap: balance;
+    padding: 1rem;
   }
 }
