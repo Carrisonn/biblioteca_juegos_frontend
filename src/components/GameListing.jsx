@@ -1,10 +1,14 @@
 import { useEffect } from 'react'
 import { useGameStore } from '../store/gameStore.js'
 import { GameCard } from './GameCard.jsx'
+import { Toast } from './Toast.jsx'
 import styles from './GameListing.module.css'
 
 export function GameListing() {
-  const { games, getGames, gameListMessage, typeMessage, isLoading } = useGameStore()
+  const games = useGameStore(state => state.games)
+  const getGames = useGameStore(state => state.getGames)
+  const message = useGameStore(state => state.message)
+  const isLoading = useGameStore(state => state.isLoading)
 
   useEffect(() => {
     getGames()
@@ -19,10 +23,6 @@ export function GameListing() {
         <h3>Terminado</h3>
       </div>
 
-      {
-        gameListMessage && <p className={`feedback_message ${typeMessage}`}>{gameListMessage}</p>
-      }
-
       <div className={styles.game_list}>
         {
           isLoading
@@ -30,6 +30,10 @@ export function GameListing() {
             : games.map(game => <GameCard key={game.id} game={game} />)
         }
       </div>
+
+      {
+        message && <Toast message={message} />
+      }
     </>
   )
 }
