@@ -2,7 +2,8 @@ import { useGameStore } from '../store/gameStore.js'
 import styles from './GameCard.module.css'
 
 export function GameCard({ game }) {
-  const { deleteGame, setEditingGame } = useGameStore()
+  const deleteGame = useGameStore(state => state.deleteGame)
+  const setEditingGame = useGameStore(state => state.setEditingGame)
 
   function handleEditingGame(game) {
     if (!game) return
