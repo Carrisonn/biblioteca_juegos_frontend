@@ -1,8 +1,13 @@
 import { useEffect, useId, useState } from 'react'
 import { useGameStore } from '../store/gameStore.js'
+import { Toast } from './Toast.jsx'
 
 export function ManipulateForm() {
-  const { createGame, manipulateFormMessage, typeMessage, editingGame, setEditingGame, editGame } = useGameStore()
+  const createGame = useGameStore(state => state.createGame)
+  const message = useGameStore(state => state.message)
+  const editingGame = useGameStore(state => state.editingGame)
+  const setEditingGame = useGameStore(state => state.setEditingGame)
+  const editGame = useGameStore(state => state.editGame)
 
   const [inputValue, setInputValue] = useState('')
   const [selectValue, setSelectValue] = useState('')
@@ -20,11 +25,14 @@ export function ManipulateForm() {
 
   function handleSubmit(event) {
     event.preventDefault()
+
     const formData = new FormData(event.target)
     const game = formData.get(idInput).trim().replace(/\b\w/g, character => character.toLocaleUpperCase())
-    const stateOfGame = formData.get(idSelect)
-    if (!game || !stateOfGame) return
-    editingGame ? editGame(editingGame.id, game, stateOfGame) : createGame(game, stateOfGame)
+    const state = formData.get(idSelect)
+    if (!game || !state) return
+
+    editingGame ? editGame(editingGame.id, game, state) : createGame(game, state)
+
     setInputValue('')
     setSelectValue('')
     setEditingGame(null)
@@ -44,11 +52,12 @@ export function ManipulateForm() {
     setEditingGame(null)
   }
 
+  const formTitle = editingGame ? 'Editar Juego' : 'Agrega Juegos'
   const buttonText = editingGame ? 'Guardar Cambios' : 'Agregar Juego'
 
   return (
     <>
-      <h2>Agregar <span className='primary-color'>Juegos</span></h2>
+      <h2>{formTitle.slice(0, 6)} <span className='primary-color'>{formTitle.slice(7)}</span></h2>
 
       <form onSubmit={handleSubmit} id={idForm} method='POST'>
         <div className='inputs_wrapper'>
@@ -77,7 +86,7 @@ export function ManipulateForm() {
       </form>
 
       {
-        manipulateFormMessage && <p className={`feedback_message ${typeMessage}`}>{manipulateFormMessage}</p>
+        message && <Toast message={message} />
       }
     </>
   )
