@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useGameStore } from '../store/gameStore.js'
 import { GameCard } from './GameCard.jsx'
 import { Toast } from './Toast.jsx'
@@ -14,6 +14,10 @@ export function GameListing() {
     getGames()
   }, [])
 
+  const sortedGames = useMemo(() => {
+    return [...games].sort((obj1, obj2) => obj1.game.localeCompare(obj2.game, "es", { sensitivity: "base" }))
+  }, [games])
+
   return (
     <>
       <h2>Lista de <span className="primary-color">Juegos</span></h2>
@@ -27,7 +31,7 @@ export function GameListing() {
         {
           isLoading
             ? <div className="loader"></div>
-            : games.map(game => <GameCard key={game.id} game={game} />)
+            : sortedGames.map(game => <GameCard key={game.id} game={game} />)
         }
       </div>
 
