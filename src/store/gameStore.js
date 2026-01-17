@@ -20,7 +20,7 @@ export const useGameStore = create((set, get) => ({
       const data = await response.json()
       if (!response.ok) return set({ games: [], message: data.errorMessage })
 
-      set({ games: data.games, message: '' })
+      set({ games: data.games })
     } catch (error) {
       //console.log(error)
       set({ message: 'Hubo un problema al obtener los juegos' })
@@ -39,7 +39,7 @@ export const useGameStore = create((set, get) => ({
       const data = await response.json()
       if (!response.ok) return set({ message: data.errorMessage })
 
-      set({ games: data.games, message: '' })
+      set({ games: data.games })
     } catch (error) {
       //console.log(error)
       set({ message: 'Hubo un problema al buscar el juego' })
@@ -81,10 +81,16 @@ export const useGameStore = create((set, get) => ({
       const data = await response.json()
       if (!response.ok) return set({ message: data.errorMessage })
 
-      set(({ games }) => ({
-        games: games.filter(game => game.id !== id),
-        message: data.successMessage
-      }))
+      set(({ games }) => {
+        const updatedGames = games.filter(game => game.id !== id)
+
+        return {
+          games: updatedGames,
+          message: data.successMessage
+        }
+      }) // set() no es síncrono garantizado, esto garantiza el nuevo array
+
+      if (get().games.length === 0) get().getGames()
 
     } catch (error) {
       //console.log(error)
