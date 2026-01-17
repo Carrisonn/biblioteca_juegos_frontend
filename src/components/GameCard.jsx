@@ -7,6 +7,8 @@ export function GameCard({ game }) {
 
   function handleEditingGame(game) {
     if (!game) return
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     setEditingGame(game)
   }
 
