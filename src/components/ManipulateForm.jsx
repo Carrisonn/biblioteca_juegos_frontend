@@ -1,13 +1,14 @@
 import { useEffect, useId, useState } from 'react'
-import { useGameStore } from '../store/gameStore.js'
+import { useStore } from '../store/store.js'
+import { useGameAPI } from '../hooks/useGameAPI.jsx'
 import { Toast } from './Toast.jsx'
 
 export function ManipulateForm() {
-  const createGame = useGameStore(state => state.createGame)
-  const message = useGameStore(state => state.message)
-  const editingGame = useGameStore(state => state.editingGame)
-  const setEditingGame = useGameStore(state => state.setEditingGame)
-  const editGame = useGameStore(state => state.editGame)
+  const { addGame, editGame } = useGameAPI()
+  const message = useStore(state => state.message)
+  const setMessage = useStore(state => state.setMessage)
+  const editingGame = useStore(state => state.editingGame)
+  const setEditingGame = useStore(state => state.setEditingGame)
 
   const [inputValue, setInputValue] = useState('')
   const [selectValue, setSelectValue] = useState('')
@@ -26,13 +27,13 @@ export function ManipulateForm() {
   function handleSubmit(event) {
     event.preventDefault()
 
-    const formData = new FormData(event.target)
-    const game = formData.get(idInput).trim().replace(/\b\w/g, character => character.toLocaleUpperCase())
-    const state = formData.get(idSelect)
+    const game = inputValue.trim().replace(/\b\w/g, character => character.toLocaleUpperCase())
+    const state = selectValue
     if (!game || !state) return
 
-    editingGame ? editGame(editingGame.id, game, state) : createGame(game, state)
+    editingGame ? editGame(editingGame.id, game, state) : addGame(game, state)
 
+    setMessage('')
     setInputValue('')
     setSelectValue('')
     setEditingGame(null)
@@ -57,6 +58,8 @@ export function ManipulateForm() {
 
   return (
     <>
+      {message && <Toast message={message} />}
+
       <h2>{formTitle.slice(0, 6)} <span className='primary-color'>{formTitle.slice(7)}</span></h2>
 
       <form onSubmit={handleSubmit} id={idForm} method='POST'>
@@ -85,9 +88,6 @@ export function ManipulateForm() {
         </div>
       </form>
 
-      {
-        message && <Toast message={message} />
-      }
     </>
   )
 }
