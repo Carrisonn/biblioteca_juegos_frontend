@@ -12,7 +12,7 @@ export function useGameAPI() {
 
   const getGames = async () => {
     setIsLoading(true)
-    const API_URL = `${import.meta.env.VITE_API_URL_DEV}/games`
+    const API_URL = `${import.meta.env.VITE_API_URL}/games`
 
     try {
       const response = await fetch(API_URL)
@@ -30,7 +30,7 @@ export function useGameAPI() {
 
   const searchGame = async game => {
     setIsLoading(true)
-    const API_URL = `${import.meta.env.VITE_API_URL_DEV}/games/${game}`
+    const API_URL = `${import.meta.env.VITE_API_URL}/games/${game}`
 
     try {
       const response = await fetch(API_URL)
@@ -86,7 +86,7 @@ export function useGameAPI() {
 
   const deleteGame = async id => {
     setIsLoading(true)
-    const API_URL = `${import.meta.env.VITE_API_URL_DEV}/games/${id}`
+    const API_URL = `${import.meta.env.VITE_API_URL}/games/${id}`
 
     try {
       const response = await fetch(API_URL, { method: 'DELETE' })
