@@ -1,5 +1,5 @@
 export function postConfig(game, state) {
-  const API_URL = `${import.meta.env.VITE_API_URL}/create`
+  const API_URL = `${import.meta.env.VITE_API_URL}/games`
 
   const POST_CONFIG = {
     method: 'POST',
