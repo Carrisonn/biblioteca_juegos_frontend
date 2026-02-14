@@ -2,11 +2,13 @@ import { create } from 'zustand'
 
 export const useStore = create(set => ({
   games: [],
+  totalGames: 0,
   isLoading: false,
   message: '',
   editingGame: null,
 
   setGames: games => set({ games }),
+  setTotalGames: total => set({ totalGames: total }),
   setEditingGame: game => set({ editingGame: game }),
   setIsLoading: boolean => set({ isLoading: boolean }),
   setMessage: message => set({ message }),
