@@ -1,5 +1,5 @@
 import { SearchForm } from './components/SearchForm.jsx'
-import { ManipulateForm } from './components/ManipulateForm.jsx'
+import { ManipulativeForm } from './components/ManipulativeForm.jsx'
 import { GameListing } from './components/GameListing.jsx'
 
 export default function App() {
@@ -10,7 +10,7 @@ export default function App() {
         <section className='wrapper'>
           <SearchForm />
           <hr />
-          <ManipulateForm />
+          <ManipulativeForm />
         </section>
 
         <section className='wrapper'>
