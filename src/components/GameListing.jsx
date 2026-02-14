@@ -1,30 +1,20 @@
-import { useEffect, useMemo } from 'react'
+import { useGameListing } from '../hooks/useGameListing.jsx'
 import { useStore } from '../store/store.js'
-import { useGameAPI } from '../hooks/useGameAPI.jsx'
 import { GameCard } from './GameCard.jsx'
 import { Toast } from './Toast.jsx'
 import styles from './GameListing.module.css'
 
 export function GameListing() {
-  const { getGames } = useGameAPI()
-
-  const games = useStore(state => state.games)
-  const message = useStore(state => state.message)
-  const isLoading = useStore(state => state.isLoading)
-
-  useEffect(() => {
-    if (games.length === 0) getGames()
-  }, [games])
-
-  const sortedGames = useMemo(() => {
-    return [...games].sort((obj1, obj2) => obj1.game.localeCompare(obj2.game, "es", { sensitivity: "base" }))
-  }, [games])
+  const { games, message, isLoading, sortedGames } = useGameListing()
+  const totalGames = useStore(state => state.totalGames)
 
   return (
     <>
       {message && <Toast message={message} />}
 
       <h2>Lista de <span className="primary-color">Juegos</span></h2>
+      <p className={styles.game_stats}>Juegos Totales: {totalGames}</p>
+      <p className={styles.game_stats}>Juegos Encontrados: {games.length}</p>
 
       <div className={styles.game_info}>
         <h3>Nombre</h3>
