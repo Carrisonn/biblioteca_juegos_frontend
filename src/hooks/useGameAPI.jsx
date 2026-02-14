@@ -4,6 +4,7 @@ import { putConfig } from '../utils/putConfig.js'
 
 export function useGameAPI() {
   const setGames = useStore(state => state.setGames)
+  const setTotalGames = useStore(state => state.setTotalGames)
   const addGameToStore = useStore(state => state.addGameToStore)
   const editGameFromStore = useStore(state => state.editGameFromStore)
   const deleteGameFromStore = useStore(state => state.deleteGameFromStore)
@@ -16,10 +17,11 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL)
-      const { games, errorMessage } = await response.json()
+      const { games, totalGames, errorMessage } = await response.json()
       if (!response.ok) return setMessage(errorMessage)
 
       setGames(games)
+      setTotalGames(totalGames)
     } catch (error) {
       console.log(error)
       setMessage('Hubo un problema al obtener los juegos')
@@ -52,10 +54,11 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL, POST_CONFIG)
-      const { newGame, errorMessage, successMessage } = await response.json()
+      const { newGame, totalGames, errorMessage, successMessage } = await response.json()
       if (!response.ok) return setMessage(errorMessage)
 
       addGameToStore(newGame)
+      setTotalGames(totalGames)
       setMessage(successMessage)
     } catch (error) {
       console.log(error)
@@ -90,10 +93,11 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL, { method: 'DELETE' })
-      const { deletedGame, errorMessage, successMessage } = await response.json()
+      const { deletedGame, totalGames, errorMessage, successMessage } = await response.json()
       if (!response.ok) return setMessage(errorMessage)
 
       deleteGameFromStore(deletedGame)
+      setTotalGames(totalGames)
       setMessage(successMessage)
     } catch (error) {
       console.log(error)
