@@ -1,37 +1,18 @@
-import { useId, useState } from 'react'
-import { useGameAPI } from '../hooks/useGameAPI.jsx'
-import { useStore } from '../store/store.js'
+import { useId } from 'react'
+import { useSearchForm } from '../hooks/useSearchForm.jsx'
 import { Toast } from './Toast.jsx'
 
 export function SearchForm() {
-  const { searchGame, getGames } = useGameAPI()
-  const setMessage = useStore(state => state.setMessage)
-  const message = useStore(state => state.message)
-
   const idForm = useId()
   const idInput = useId()
 
-  const [inputValue, setInputValue] = useState('')
-
-  function handleSubmit(event) {
-    event.preventDefault()
-
-    const game = inputValue.trim()
-    if (!game) return
-
-    setMessage('')
-    searchGame(game)
-    setInputValue('')
-  }
-
-  function handleInputValue(event) {
-    setInputValue(event.target.value)
-  }
-
-  function handleResetList() {
-    getGames()
-    setInputValue('')
-  }
+  const {
+    message,
+    inputValue,
+    handleSubmit,
+    handleInputValue,
+    handleResetList
+  } = useSearchForm()
 
   return (
     <>
