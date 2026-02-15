@@ -1,6 +1,5 @@
 import { useStore } from '../store/store.js'
-import { postConfig } from '../utils/postConfig.js'
-import { putConfig } from '../utils/putConfig.js'
+import { config } from '../utils/config.js'
 
 export function useGameAPI() {
   const setGames = useStore(state => state.setGames)
@@ -48,12 +47,12 @@ export function useGameAPI() {
     }
   }
 
-  const addGame = async (game, state) => {
+  const addGame = async (...data) => {
     setIsLoading(true)
-    const { API_URL, POST_CONFIG } = postConfig(game, state)
+    const { API_URL, CONFIG } = config(null, data, 'POST')
 
     try {
-      const response = await fetch(API_URL, POST_CONFIG)
+      const response = await fetch(API_URL, CONFIG)
       const { newGame, totalGames, errorMessage, successMessage } = await response.json()
       if (!response.ok) return setMessage(errorMessage)
 
@@ -68,12 +67,12 @@ export function useGameAPI() {
     }
   }
 
-  const editGame = async (id, game, state) => {
+  const editGame = async (id, ...data) => {
     setIsLoading(true)
-    const { API_URL, PUT_CONFIG } = putConfig(id, game, state)
+    const { API_URL, CONFIG } = config(id, data, 'PUT')
 
     try {
-      const response = await fetch(API_URL, PUT_CONFIG)
+      const response = await fetch(API_URL, CONFIG)
       const { updatedGame, errorMessage, successMessage } = await response.json()
       if (!response.ok) return setMessage(errorMessage)
 
