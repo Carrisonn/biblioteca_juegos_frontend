@@ -16,8 +16,8 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL)
-      const { games, totalGames, errorMessage } = await response.json()
-      if (!response.ok) return setMessage(errorMessage)
+      const { games, totalGames, message } = await response.json()
+      if (!response.ok) return setMessage(message)
 
       setGames(games)
       setTotalGames(totalGames)
@@ -35,8 +35,8 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL)
-      const { games, errorMessage } = await response.json()
-      if (!response.ok) return setMessage(errorMessage)
+      const { games, message } = await response.json()
+      if (!response.ok) return setMessage(message)
 
       setGames(games)
     } catch (error) {
@@ -53,12 +53,12 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL, CONFIG)
-      const { newGame, totalGames, errorMessage, successMessage } = await response.json()
-      if (!response.ok) return setMessage(errorMessage)
+      const { newGame, totalGames, message } = await response.json()
+      if (!response.ok) return setMessage(message)
 
       addGameToStore(newGame)
       setTotalGames(totalGames)
-      setMessage(successMessage)
+      setMessage(message)
     } catch (error) {
       console.log(error)
       setMessage('Hubo un problema al crear el juego')
@@ -73,11 +73,11 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL, CONFIG)
-      const { updatedGame, errorMessage, successMessage } = await response.json()
-      if (!response.ok) return setMessage(errorMessage)
+      const { updatedGame, message } = await response.json()
+      if (!response.ok) return setMessage(message)
 
       editGameFromStore(updatedGame)
-      setMessage(successMessage)
+      setMessage(message)
     } catch (error) {
       console.log(error)
       setMessage('Hubo un problema al editar el juego')
@@ -92,12 +92,12 @@ export function useGameAPI() {
 
     try {
       const response = await fetch(API_URL, { method: 'DELETE' })
-      const { deletedGame, totalGames, errorMessage, successMessage } = await response.json()
-      if (!response.ok) return setMessage(errorMessage)
+      const { deletedGame, totalGames, message } = await response.json()
+      if (!response.ok) return setMessage(message)
 
       deleteGameFromStore(deletedGame)
       setTotalGames(totalGames)
-      setMessage(successMessage)
+      setMessage(message)
     } catch (error) {
       console.log(error)
       setMessage('Hubo un problema al borrar el juego')
