@@ -5,8 +5,10 @@ import { Toast } from './Toast.jsx'
 import styles from './GameListing.module.css'
 
 export function GameListing() {
-  const { games, message, isLoading, sortedGames } = useGameListing()
+  const { games, sortedGames } = useGameListing()
   const totalGames = useStore(state => state.totalGames)
+  const message = useStore(state => state.message)
+  const isLoading = useStore(state => state.isLoading)
 
   return (
     <>
