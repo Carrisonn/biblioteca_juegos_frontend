@@ -1,0 +1,22 @@
+.floating_btn {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  z-index: 9;
+  animation: fadeIn .2s ease-in;
+  border-radius: 999px;
+
+  svg {
+    margin: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
