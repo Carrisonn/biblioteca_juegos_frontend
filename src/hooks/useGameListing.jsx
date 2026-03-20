@@ -4,10 +4,7 @@ import { useGameAPI } from '../hooks/useGameAPI.jsx'
 
 export function useGameListing() {
   const { getGames } = useGameAPI()
-
   const games = useStore(state => state.games)
-  const message = useStore(state => state.message)
-  const isLoading = useStore(state => state.isLoading)
 
   useEffect(() => {
     if (games.length === 0) getGames()
@@ -19,8 +16,6 @@ export function useGameListing() {
 
   return {
     games,
-    message,
-    isLoading,
     sortedGames,
   }
 }
