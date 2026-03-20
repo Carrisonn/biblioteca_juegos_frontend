@@ -22,7 +22,7 @@ export function useGameAPI() {
       setGames(games)
       setTotalGames(totalGames)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setMessage('Hubo un problema al obtener los juegos')
     } finally {
       setIsLoading(false)
@@ -40,7 +40,7 @@ export function useGameAPI() {
 
       setGames(games)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setMessage({ message: 'Hubo un problema al buscar el juego' })
     } finally {
       setIsLoading(false)
@@ -60,7 +60,7 @@ export function useGameAPI() {
       setTotalGames(totalGames)
       setMessage(message)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setMessage('Hubo un problema al crear el juego')
     } finally {
       setIsLoading(false)
@@ -79,7 +79,7 @@ export function useGameAPI() {
       editGameFromStore(updatedGame)
       setMessage(message)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setMessage('Hubo un problema al editar el juego')
     } finally {
       setIsLoading(false)
@@ -99,7 +99,7 @@ export function useGameAPI() {
       setTotalGames(totalGames)
       setMessage(message)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setMessage('Hubo un problema al borrar el juego')
     } finally {
       setIsLoading(false)
