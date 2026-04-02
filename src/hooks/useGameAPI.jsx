@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useStore } from '../store/store.js'
 import { config } from '../utils/config.js'
 
@@ -9,6 +10,7 @@ export function useGameAPI() {
   const deleteGameFromStore = useStore(state => state.deleteGameFromStore)
   const setMessage = useStore(state => state.setMessage)
   const setIsLoading = useStore(state => state.setIsLoading)
+  const [APIHealthText, setAPIHealthText] = useState('')
 
   const getGames = async () => {
     setIsLoading(true)
@@ -106,11 +108,31 @@ export function useGameAPI() {
     }
   }
 
+  const checkAPI = async () => {
+    setIsLoading(true)
+    const API_URL = `${import.meta.env.VITE_API_URL}/health`
+
+    try {
+      const response = await fetch(API_URL)
+      if (!response.ok) return 'La API no esta disponible'
+
+      const text = await response.text()
+      setAPIHealthText(text)
+    } catch (error) {
+      // console.log(error)
+      return 'Hubo un error al comprobar la salud de la API'
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return {
     getGames,
     searchGame,
     addGame,
     editGame,
-    deleteGame
+    deleteGame,
+    checkAPI,
+    APIHealthText
   }
 }
