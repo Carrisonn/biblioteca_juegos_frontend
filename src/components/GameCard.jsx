@@ -1,24 +1,8 @@
-import { useGameAPI } from '../hooks/useGameAPI.jsx'
-import { useStore } from '../store/store.js'
-import { useScroll } from '../hooks/useScroll.jsx'
+import { useGameCard } from '../hooks/useGamecard.jsx'
 import styles from './GameCard.module.css'
 
 export function GameCard({ game }) {
-  const { deleteGame } = useGameAPI()
-  const { scrollTo } = useScroll()
-  const setEditingGame = useStore(state => state.setEditingGame)
-
-  function handleEditingGame(game) {
-    if (!game) return
-
-    scrollTo({})
-    setEditingGame(game)
-  }
-
-  function handleDeleteGame(idGame) {
-    if (!idGame) return
-    deleteGame(idGame)
-  }
+  const { handleDeleteGame, handleEditingGame } = useGameCard()
 
   return (
     <div className={styles.cards_wrapper}>
