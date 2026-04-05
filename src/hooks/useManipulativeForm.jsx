@@ -49,7 +49,7 @@ export function useManipulativeForm() {
     setEditingGame(null)
   }
 
-  const formTitle = editingGame ? 'Editar Juego' : 'Agrega Juegos'
+  const formTitle = editingGame ? 'Editar Juego' : 'Agregar Juego'
   const buttonText = editingGame ? 'Guardar Cambios' : 'Agregar Juego'
 
   return {
