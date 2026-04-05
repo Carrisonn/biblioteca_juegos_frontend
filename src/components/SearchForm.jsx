@@ -21,7 +21,7 @@ export function SearchForm() {
       <h2>Buscar <span className='primary-color'>Juegos</span></h2>
 
       <form onSubmit={handleSubmit} id={idForm} method='GET'>
-        <div className='inputs_wrapper'>
+        <div className='column'>
           <input
             type="text"
             form={idForm}
@@ -34,7 +34,7 @@ export function SearchForm() {
           />
         </div>
 
-        <div className='buttons_wrapper'>
+        <div className='buttons-wrapper'>
           <button type='button' onClick={handleResetList}>Mostrar Todos</button>
           <button type='submit'>Buscar Juego</button>
         </div>
