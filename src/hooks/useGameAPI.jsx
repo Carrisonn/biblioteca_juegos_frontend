@@ -10,7 +10,7 @@ export function useGameAPI() {
   const deleteGameFromStore = useStore(state => state.deleteGameFromStore)
   const setMessage = useStore(state => state.setMessage)
   const setIsLoading = useStore(state => state.setIsLoading)
-  const [APIHealthText, setAPIHealthText] = useState('')
+  const [APIStatus, setAPIStatus] = useState({ text: 'Comprobando servicio', onLine: false })
 
   const getGames = async () => {
     setIsLoading(true)
@@ -23,7 +23,7 @@ export function useGameAPI() {
 
       setGames(games)
       setTotalGames(totalGames)
-    } catch (error) {
+    } catch {
       // console.log(error)
       setMessage('Hubo un problema al obtener los juegos')
     } finally {
@@ -41,7 +41,7 @@ export function useGameAPI() {
       if (!response.ok) return setMessage(message)
 
       setGames(games)
-    } catch (error) {
+    } catch {
       // console.log(error)
       setMessage({ message: 'Hubo un problema al buscar el juego' })
     } finally {
@@ -61,7 +61,7 @@ export function useGameAPI() {
       addGameToStore(newGame)
       setTotalGames(totalGames)
       setMessage(message)
-    } catch (error) {
+    } catch {
       // console.log(error)
       setMessage('Hubo un problema al crear el juego')
     } finally {
@@ -80,7 +80,7 @@ export function useGameAPI() {
 
       editGameFromStore(updatedGame)
       setMessage(message)
-    } catch (error) {
+    } catch {
       // console.log(error)
       setMessage('Hubo un problema al editar el juego')
     } finally {
@@ -100,7 +100,7 @@ export function useGameAPI() {
       deleteGameFromStore(deletedGame)
       setTotalGames(totalGames)
       setMessage(message)
-    } catch (error) {
+    } catch {
       // console.log(error)
       setMessage('Hubo un problema al borrar el juego')
     } finally {
@@ -109,20 +109,15 @@ export function useGameAPI() {
   }
 
   const checkAPI = async () => {
-    setIsLoading(true)
     const API_URL = `${import.meta.env.VITE_API_URL}/health`
 
     try {
       const response = await fetch(API_URL)
-      if (!response.ok) return 'La API no esta disponible'
-
-      const text = await response.text()
-      setAPIHealthText(text)
-    } catch (error) {
+      const { text, onLine } = await response.json()
+      setAPIStatus({ text, onLine })
+    } catch {
       // console.log(error)
-      return 'Hubo un error al comprobar la salud de la API'
-    } finally {
-      setIsLoading(false)
+      setAPIStatus({ text: 'Servicio fuera de línea', onLine: false })
     }
   }
 
@@ -133,6 +128,6 @@ export function useGameAPI() {
     editGame,
     deleteGame,
     checkAPI,
-    APIHealthText
+    APIStatus
   }
 }
