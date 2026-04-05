@@ -23,10 +23,10 @@ export function ManipulativeForm() {
     <>
       {message && <Toast message={message} />}
 
-      <h2>{formTitle.slice(0, 6)} <span className='primary-color'>{formTitle.slice(7)}</span></h2>
+      <h2>{formTitle.slice(0, 7)} <span className='primary-color'>{formTitle.slice(7)}</span></h2>
 
       <form onSubmit={handleSubmit} id={idForm} method='POST'>
-        <div className='inputs_wrapper'>
+        <div className='column'>
           <input
             type="text"
             form={idForm}
@@ -45,7 +45,7 @@ export function ManipulativeForm() {
           </select>
         </div>
 
-        <div className='buttons_wrapper'>
+        <div className='buttons-wrapper'>
           <button onClick={handleResetForm} type='button'>Deshacer cambios</button>
           <button type='submit'>{buttonText}</button>
         </div>
