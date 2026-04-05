@@ -1,16 +1,20 @@
 import { useEffect } from 'react'
 import { useGameAPI } from '../hooks/useGameAPI.jsx'
-import { useStore } from '../store/store.js'
+import styles from './APIHealthCheck.module.css'
 
 export function APIHealthCheck() {
-  const { checkAPI, APIHealthText } = useGameAPI()
-  const isLoading = useStore(state => state.isLoading)
+  const { checkAPI, APIStatus } = useGameAPI()
+  const { text, onLine } = APIStatus
+  const pillColor = onLine ? 'green' : 'red'
 
   useEffect(() => {
     checkAPI()
   }, [])
 
-  if (isLoading) return <div className="loader" style={{ marginTop: '4rem' }}></div>
-
-  return <h1 style={{ textDecoration: 'none' }}>{APIHealthText}</h1>
+  return (
+    <div className={`${styles.pill} ${pillColor}`}>
+      <span className={styles.pill_pulse}></span>
+      <span className={styles.pill_text}>{text}</span>
+    </div >
+  )
 }
