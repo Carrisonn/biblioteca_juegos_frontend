@@ -15,9 +15,8 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  border: none;
   border-radius: 50%;
-  animation: pulse 3s infinite;
+  animation: pulse 2s infinite;
   background-color: var(--primary-color);
 }
 
