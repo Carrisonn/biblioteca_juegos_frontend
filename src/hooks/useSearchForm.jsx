@@ -3,7 +3,7 @@ import { useGameAPI } from '../hooks/useGameAPI.jsx'
 import { useStore } from '../store/store.js'
 
 export function useSearchForm() {
-  const { searchGame, getGames } = useGameAPI()
+  const { getGames } = useGameAPI()
 
   const setMessage = useStore(state => state.setMessage)
   const message = useStore(state => state.message)
@@ -17,7 +17,7 @@ export function useSearchForm() {
     if (!game) return
 
     setMessage('')
-    searchGame(game)
+    getGames(game)
     setInputValue('')
   }
 
