@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useStore } from '../store/store.js'
 import { config } from '../utils/config.js'
+import { useMessageHandler } from './useMessageHandler.jsx'
 
 export function useGameAPI() {
   const setGames = useStore(state => state.setGames)
@@ -8,42 +9,26 @@ export function useGameAPI() {
   const addGameToStore = useStore(state => state.addGameToStore)
   const editGameFromStore = useStore(state => state.editGameFromStore)
   const deleteGameFromStore = useStore(state => state.deleteGameFromStore)
-  const setMessage = useStore(state => state.setMessage)
   const setIsLoading = useStore(state => state.setIsLoading)
+  const { messageHandler } = useMessageHandler()
   const [APIStatus, setAPIStatus] = useState({ text: 'Comprobando servicio', onLine: false })
 
-  const getGames = async () => {
+  const getGames = async game => {
     setIsLoading(true)
-    const API_URL = `${import.meta.env.VITE_API_URL}/games`
+    const API_URL = game
+      ? `${import.meta.env.VITE_API_URL}/games?search=${encodeURIComponent(game)}`
+      : `${import.meta.env.VITE_API_URL}/games`
 
     try {
       const response = await fetch(API_URL)
       const { games, totalGames, message } = await response.json()
-      if (!response.ok) return setMessage(message)
+      if (!response.ok) return messageHandler({ message, statusCode: response.status })
 
       setGames(games)
       setTotalGames(totalGames)
     } catch {
       // console.log(error)
-      setMessage('Hubo un problema al obtener los juegos')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const searchGame = async game => {
-    setIsLoading(true)
-    const API_URL = `${import.meta.env.VITE_API_URL}/games/${game}`
-
-    try {
-      const response = await fetch(API_URL)
-      const { games, message } = await response.json()
-      if (!response.ok) return setMessage(message)
-
-      setGames(games)
-    } catch {
-      // console.log(error)
-      setMessage({ message: 'Hubo un problema al buscar el juego' })
+      messageHandler({ message: 'Hubo un problema al obtener los juegos, inténtalo más tarde' })
     } finally {
       setIsLoading(false)
     }
@@ -56,14 +41,14 @@ export function useGameAPI() {
     try {
       const response = await fetch(API_URL, CONFIG)
       const { newGame, totalGames, message } = await response.json()
-      if (!response.ok) return setMessage(message)
+      if (!response.ok) return messageHandler({ message, statusCode: response.status })
 
       addGameToStore(newGame)
       setTotalGames(totalGames)
-      setMessage(message)
+      messageHandler({ message })
     } catch {
       // console.log(error)
-      setMessage('Hubo un problema al crear el juego')
+      messageHandler({ message: 'Hubo un problema al crear el juego, inténtalo más tarde' })
     } finally {
       setIsLoading(false)
     }
@@ -76,13 +61,13 @@ export function useGameAPI() {
     try {
       const response = await fetch(API_URL, CONFIG)
       const { updatedGame, message } = await response.json()
-      if (!response.ok) return setMessage(message)
+      if (!response.ok) return messageHandler({ message, statusCode: response.status })
 
       editGameFromStore(updatedGame)
-      setMessage(message)
+      messageHandler({ message })
     } catch {
       // console.log(error)
-      setMessage('Hubo un problema al editar el juego')
+      messageHandler({ message: 'Hubo un problema al editar el juego' })
     } finally {
       setIsLoading(false)
     }
@@ -95,14 +80,14 @@ export function useGameAPI() {
     try {
       const response = await fetch(API_URL, { method: 'DELETE' })
       const { deletedGame, totalGames, message } = await response.json()
-      if (!response.ok) return setMessage(message)
+      if (!response.ok) return messageHandler({ message, statusCode: response.status })
 
       deleteGameFromStore(deletedGame)
       setTotalGames(totalGames)
-      setMessage(message)
+      messageHandler({ message })
     } catch {
       // console.log(error)
-      setMessage('Hubo un problema al borrar el juego')
+      messageHandler('Hubo un problema al borrar el juego')
     } finally {
       setIsLoading(false)
     }
@@ -123,7 +108,6 @@ export function useGameAPI() {
 
   return {
     getGames,
-    searchGame,
     addGame,
     editGame,
     deleteGame,
