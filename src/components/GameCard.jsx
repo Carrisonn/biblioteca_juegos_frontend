@@ -26,7 +26,7 @@ export function GameCard({ game }) {
 
         <button
           className='delete'
-          onClick={() => handleDeleteGame(game.id)}
+          onClick={() => handleDeleteGame(game)}
         >
           <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -39,7 +39,7 @@ export function GameCard({ game }) {
               <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeinejoin="round"></path>
             </g>
           </svg>
-          Borrar
+          Eliminar
         </button>
       </div>
     </div>
